@@ -50,7 +50,7 @@ def _isCorrectSTLDefinedByApp = DoesAppAlreadyDefineWantedSTL()
 android {
     compileSdkVersion ((rootProject?.ext?.properties?.compileSdkVersion) ?: 23)
     buildToolsVersion ((rootProject?.ext?.properties?.buildToolsVersion) ?: "23.0.1")
-    ndkVersion ((rootProject?.ext?.ndkVersion) ?: "24.0.8215888")
+    ndkVersion ((rootProject?.ext?.ndkVersion) ?: "27.1.12297006")
 
     defaultConfig {
         minSdkVersion _nodeMinSdkVersion
@@ -59,7 +59,8 @@ android {
         versionName "1.0"
         externalNativeBuild {
             cmake {
-                cppFlags ""
+                // Enable 16KB page size for Android (NDK r27+)
+                arguments "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON"
                 if(!_isCorrectSTLDefinedByApp) {
                     arguments "-DANDROID_STL=c++_shared"
                 }
